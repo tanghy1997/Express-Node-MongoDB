@@ -13,6 +13,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+global.baseDir = __dirname; //设置存储全局目录路径
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,6 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //自定义路由模块
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin/rows', require('./routes/admin/admin_row'));
+app.use('/admin/cols', require('./routes/admin/admin_col'));
+app.use('/admin/main', require('./routes/admin/main'));
+app.use('/admin/goodsType', require('./routes/admin/admin_goodsType'));
+app.use('/admin/goods', require('./routes/admin/admin_goods'));
+app.use('/common', require('./routes/common'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

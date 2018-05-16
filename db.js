@@ -7,9 +7,7 @@
 const mongoose = require('mongoose'); //引入mongoose插件
 mongoose.Promise = global.Promise; //在node.js中使用内置的promise对象
 const Schema = mongoose.Schema; //Schema模块架构
-mongoose.connect('mongodb://localhost/super_shop', {
-	useMongoClient: true
-});
+mongoose.connect('mongodb://localhost/super_shop');
 
 module.exports = {
 	mongoose: mongoose,
