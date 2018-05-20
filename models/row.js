@@ -1,5 +1,5 @@
 // 行信息
-const db = required('../db');
+const db = require('../db');
 const mongoose = db.mongoose;
 const Schema = db.Schema;
 const rowSchema = new Schema({
