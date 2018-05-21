@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品新增</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/assets/kindeditor/kindeditor-all.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title"></h3>
+            </div>
+            <div class="panel-body">
+                <form action="" method="POST" role="form">
+                    <div class="form-group">
+                        <label for="">商品名称</label>
+                        <input type="text" class="form-control" name="name" id="" placeholder="请输入商品名称">
+                    </div>
+                    <div>
+                        <label>描述</label>
+                        <textarea name="description" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">新增</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        KindEditor.ready(function(K) {
+            var editor1 = K.create('textarea[name="description"]', {
+                uploadJson: '/common/kindeditor/uploadImg' //处理文件上传服务
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>行数据新增</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!--bs3-panel:danger 生成一个面板 红色头部 -->
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">行数据新增</h3>
+        </div>
+        <div class="panel-body">
+            <!-- bs3-form 生成一个表单 -->
+            <form action="" method="POST" role="form">
+                <div class="form-group">
+                    <label for="">名字</label>
+                    <input type="text" class="form-control" name="name" placeholder="请输入姓名">
+                </div>
+                <div>
+                    <label>描述</label>
+                    <textarea name="description" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <button type="submit" class="btn btn-block btn-primary">新增</button>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
