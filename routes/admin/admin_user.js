@@ -17,7 +17,7 @@ router.get('/', (req,vres) => {
 	})
 });
 
-router.post('register', (req, res) => {
+router.post('/register', (req, res) => {
 	const model = new AdminUser(req.body);
 	if(model.name.trim() == '') {
 		res.send('用户名不能为空！');

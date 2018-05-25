@@ -17,6 +17,7 @@ router.post('/add', (req, res) => {
 	model.save()
 		.then(data => {
 			console.log(data);
+			res.redirect('/admin/rows');
 		})
 		.catch(err => {
 			console.log(err);

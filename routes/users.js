@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var Col = require('../models/col');
-var Row = require('../models/row')
+var Row = require('../models/row');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -24,16 +24,17 @@ router.get('/', function(req, res, next) {
 router.get('/reg', (req, res) => {
 	const rowData = Row.find();
 	const colData = Col.find();
-	const  allP = promise.all([rowData, colData]);
+	const  allP = Promise.all([rowData, colData]);
 
 	allP.then(([rowList, colList]) => {
+		console.log(123)
 		res.render('user/reg', {
 			rowList,
 			colList
 		})
-			.catch(err => {
-				console.log(err);
-			})
+		.catch(err => {
+			console.log(err);
+		})
 	})
 });
 

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>座次表</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">管理员信息表</h3>
+			</div>
+			<div class="panel-body">
+				<a href="/admin/user/register" class="btn btn-danger">新增</a>
+				<table class="table table-bordered table-hover">
+					<thead>
+					<tr>
+						<th>姓名</th>
+						<th>昵称</th>
+						<th>QQ</th>
+						<th>手机号</th>
+						<th>邮箱</th>
+						<th>密码</th>
+					</tr>
+					</thead>
+					<tbody>
+					<% adminData.forEach(function(r){%>
+					<tr>
+						<td>
+							<%= r.name%>
+						</td>
+						<td>
+							<%= r.user_name%>
+						</td>
+						<td>
+							<%= r.qq%>
+						</td>
+						<td>
+							<%= r.phone%>
+						</td>
+						<td>
+							<%= r.email%>
+						</td>
+						<td>
+							<%= r.user_pwd%>
+						</td>
+					</tr>
+					<%})%>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

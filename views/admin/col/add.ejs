@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>增加列数据</title>
+	<title>列数据增加</title>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="/assets/kindeditor/kindeditor-all.js"></script>
+	<script src="/assets/kindeditor/kindeditor-all.js"></script>
 </head>
+
 <body>
-	<div class="panel panel-danger">
-        <div class="panel-heading">
-            <h3 class="panel-title">列数据增加</h3>
-        </div>
-        <div class="panel-body">
-            <form action="" method="POST" role="form">
-                <div class="form-group">
-                    <label for="">姓名</label>
-                    <input type="text" class="form-control" name="name" placeholder="请输入你的姓名">
-                </div>
-                <div>
-                    <label>描述</label>
-                    <textarea name="description" class="form-control" cols="30" rows="10"></textarea>
-                </div>
-                <button type="submit" class="btn btn-block btn-primary">增加</button>
-            </form>
-        </div>
+<div class="panel panel-danger">
+	<div class="panel-heading">
+		<h3 class="panel-title">列数据增加</h3>
 	</div>
-	
-	<script>
-		KindEditor.ready(function(K) {
-			var editor1 = K.create('textarea[name="description"]', {
-				uploadJson: '/common/kindeditor/uploadImg' //处理文件上传服务
-			});
+	<div class="panel-body">
+		<form action="" method="POST" role="form">
+			<div class="form-group">
+				<label for="">姓名</label>
+				<input type="text" class="form-control" name="name" placeholder="请输入你的姓名">
+			</div>
+			<div>
+				<label>描述</label>
+				<textarea name="description" class="form-control" cols="30" rows="10"></textarea>
+			</div>
+			<button type="submit" class="btn btn-block btn-primary">增加</button>
+		</form>
+	</div>
+</div>
+<script>
+	KindEditor.ready(function(K) {
+		var editor1 = K.create('textarea[name="description"]', {
+			uploadJson: '/common/kindeditor/uploadImg' //处理文件上传服务
 		});
-	</script>
+	});
+</script>
 </body>
+
 </html>

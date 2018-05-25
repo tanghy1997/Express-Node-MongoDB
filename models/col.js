@@ -7,7 +7,7 @@ const colSchema = new Schema({
 		type: String,
 		default: ''
 	},
-	deacription: {
+	description: {
 		type: String,
 		default: ''
 	},
