@@ -20,7 +20,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 global.baseDir = __dirname; //设置存储全局目录路径
-// global.pageSize = 2; //分页的页数
+global.pageSize = 2; //分页的页数
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -66,15 +66,15 @@ app.post('/admin/main/login_sub', (req, res) => {
 });
 
 //设置后台管理权限
-//app.all表示所有请求
-// app.all('/admin/*', (req, res, next ) => {
-// 	if(req.cookies.admin_user) {
-// 	//	已经登录
-// 		next();
-// 	} else { //未登录成功
-// 		res.redirect('/admin/main/login')
-// 	}
-// });
+// app.all表示所有请求
+app.all('/admin/*', (req, res, next ) => {
+	if(req.cookies.admin_user) {
+	//	已经登录
+		next();
+	} else { //未登录成功
+		res.redirect('/admin/main/login')
+	}
+});
 app.use('/admin/rows', require('./routes/admin/admin_row'));
 app.use('/admin/cols', require('./routes/admin/admin_col'));
 app.use('/admin/main', require('./routes/admin/main'));

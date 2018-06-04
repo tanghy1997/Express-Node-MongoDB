@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="renderer" content="webkit">
 
-	<title> hAdmin- 主页</title>
+	<title>super-shop-管理后台</title>
 
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -15,7 +15,7 @@
 	<meta http-equiv="refresh" content="0;ie.html" />
 	<![endif]-->
 
-	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="shortcut icon" href="/favicon.ico">
 	<link href="/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
 	<link href="/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 	<link href="/admin/css/animate.css" rel="stylesheet">
@@ -80,6 +80,18 @@
 						</li>
 					</ul>
 				</li>
+				<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+					<span class="ng-scope">管理员管理</span>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-picture-o"></i> <span class="nav-label">管理员</span><span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="J_menuItem" href="/admin/user/register">添加管理员</a>
+						</li>
+						<li><a class="J_menuItem" href="/admin/user">管理员信息</a>
+						</li>
+					</ul>
+				</li>
 
 			</ul>
 		</div>
@@ -139,40 +151,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-							<i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-						</a>
-						<ul class="dropdown-menu dropdown-alerts">
-							<li>
-								<a href="mailbox.html">
-									<div>
-										<i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-										<span class="pull-right text-muted small">4分钟前</span>
-									</div>
-								</a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="profile.html">
-									<div>
-										<i class="fa fa-qq fa-fw"></i> 3条新回复
-										<span class="pull-right text-muted small">12分钟钱</span>
-									</div>
-								</a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="text-center link-block">
-									<a class="J_menuItem" href="notifications.html">
-										<strong>查看所有 </strong>
-										<i class="fa fa-angle-right"></i>
-									</a>
-								</div>
-							</li>
-						</ul>
-					</li>
 				</ul>
+				<button class="btn btn-block btn-primary" onclick="logOut()">退出</button>
 			</nav>
 		</div>
 		<div class="row J_mainContent" id="content-main">
@@ -189,15 +169,22 @@
 <script src="/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/admin/js/plugins/layer/layer.min.js"></script>
 
+
 <!-- 自定义js -->
 <script src="/admin/js/hAdmin.js?v=4.1.0"></script>
 <script type="text/javascript" src="/admin/js/index.js"></script>
 
-<!-- 第三方插件 :前端模仿进度条加载 -->
+<!-- 第三方插件 -->
 <script src="/admin/js/plugins/pace/pace.min.js"></script>
-<div style="text-align:center;">
-	<p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
-</div>
+<script src="/admin/js/js-cookie.js"></script>
+<script>
+	function logOut() {
+		Cookies.remove('admin_user', {
+			path: '/'
+		}),
+			location.reload()
+	}
+</script>
 </body>
 
 </html>

@@ -7,7 +7,6 @@
 	<title>商品新增</title>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/admin/css/style.css">
-    <script src="/assets/kindeditor/kindeditor-all.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -54,24 +53,51 @@
 			</div>
 	  	</div>
 	</div>
+	<script src="/assets/kindeditor/kindeditor-all.js"></script>
 	<script src="/admin/js/jquery.min.js"></script>
 	<script>
         KindEditor.ready(function(K) {
             var editor1 = K.create('textarea[name="content"]', {
                 uploadJson: '/common/kindeditor/uploadImg' //处理文件上传服务
             });
-        });
-        K('#image1').click(function(){
-        	editor.loadPlugin('image', function() {
-        		editor.plugin.imageDialog({
-					imageUrl: K('#url1').val(),
-					clickFn: function(url, title, width, height, border, align) {
-						K('#url1').val(url);
-						editor.hideDialog();
+            var uploadbutton = K.uploadbutton({
+				button: K('#uploadButton')[0],
+				fieldName: 'imgFile',
+				url: '/common/kindeditor/uploadImg',
+				afterUpload: function(data) {
+					if(data.error === 0) {
+						var url = data.url;
+						K('#img').val(url);
+						K('#imgCtrl').attr('src', url);
+					} else {
+						alert(data.message);
 					}
-				})
-			})
-		})
+				},
+				afterError: function(str) {
+					alert('自定义错误信息：' + str);
+				}
+			});
+            uploadbutton.fileBox.change(function(e) {
+            	uploadbutton.submit();
+			});
+        //    修改单独上传文件插件样式
+			var upBtn = $('.ke-button').attr('class','');
+			upBtn.addClass('btn btn-danger btn-sm');
+			$('.ke-button-common').height('auto');
+			$('.ke-form').width('50px');
+
+        });
+        // K('#image1').click(function(){
+        	// editor.loadPlugin('image', function() {
+        	// 	editor.plugin.imageDialog({
+		// 			imageUrl: K('#url1').val(),
+		// 			clickFn: function(url, title, width, height, border, align) {
+		// 				K('#url1').val(url);
+		// 				editor.hideDialog();
+		// 			}
+		// 		})
+		// 	})
+		// })
     </script>
 </body>
 </html>

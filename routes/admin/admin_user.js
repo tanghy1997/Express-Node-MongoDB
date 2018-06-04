@@ -4,16 +4,40 @@ const AdminUser = require('../../models/admin_user');
 const untils = require('../../tools/utils');
 
 router.get('/register', (req, res) =>{
-	const adminData = AdminUser.find();
-	adminData.then(
-		res.render('admin/user/register', adminData)
-	)
+	// const adminData = AdminUser.find();
+	// adminData.then(
+	// 	res.render('admin/user/register', adminData)
+	// )
+	let model = new AdminUser()
+	//这里不能用save方法，因为会保存空数据
+	res.render('admin/user/register', {
+		model,
+		isEditor: false
+	})
 });
 
-router.get('/', (req,vres) => {
-	const adminData = AdminUser.find();
-	adminData.then( data => {
-		res.render('admin/user/index', { adminData: data })
+router.get('/', (req, res) => {
+	// const adminData = AdminUser.find();
+	// adminData.then( data => {
+	// 	res.render('admin/user/index', { adminData: data })
+	// })
+	let page = 1;//当前页码
+	if(req.query.page) {
+		page = Number(req.query.page);
+	}
+	const queryCount = AdminUser.count();
+	const queryData = AdminUser.find() //数据查找
+		.limit(global.pageSize).skip((page - 1) * global.pageSize)
+	const pAll = Promise.all([queryCount, queryData]);
+	pAll.then(([allCount, data]) => {
+		const pageCount = Math.ceil(allCount / global.pageSize);//总页数
+		const arrPages = utils.getPagesArr(page, pageCount); //总页数
+		res.render('admin/user/index', {
+			list: data,
+			pages: arrPages,//页面中显示的分页页码
+			pageCount, //总页数
+			pageIndex: page, //当前页码
+		})
 	})
 });
 
@@ -50,6 +74,42 @@ router.post('/register', (req, res) => {
 				})
 		}
 	})
+})
+
+router.post('/delete', (req, res) => {
+	if (req.body.id) {
+		AdminUser.findByIdAndRemove(req.body.id)
+			.then(data => {
+				res.redirect('/admin/user')
+			})
+			.catch(err => {
+				res.json({
+					status: 'n',
+					msg: '删除错误'
+				})
+			})
+	}
+})
+
+router.get('/editor', (req, res) => {
+	if (req.query.id) {
+		AdminUser.findById(req.query.id)
+			.then(model => {
+				res.render('admin/user/register', { model, isEditor: true });
+			})
+			.catch(err => {
+				res.send(err);
+			})
+	}
+})
+router.post('/editor/:id', (req, res) => {
+	AdminUser.findByIdAndUpdate(req.params.id, req.body)
+		.then(data => {
+			res.redirect('/admin/user');
+		})
+		.catch(err => {
+			res.send(err);
+		})
 })
 
 module.exports = router;
