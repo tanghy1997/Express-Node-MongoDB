@@ -1,56 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>管理员-设定</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理员-设定</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
+
 <body>
-	<div class="panel panel-warning">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				管理员信息注册
-			</h3>
-		</div>
-		<div class="panel-body">
-			<form action="" method="POST" role="form">
-				<div class="form-group">
-					<label for="">姓名</label>
-					<input type="text" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label for="">昵称</label>
-					<input type="text" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label for="">QQ</label>
-					<input type="text" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label for="">手机号</label>
-					<input type="text" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label for="">email</label>
-					<input type="email" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label for="">密码</label>
-					<input type="password" class="form-control" name="" placeholder="">
-				</div>
-				<div class="form-group">
-					<label>是否加密</label>
-					<select name="is_encryption" class="form-control">
-						<option value="1">加密</option>
-						<option value="0">不加密</option>
-					</select>
-				</div>
-				<button type="submit" class="btn btn-block btn-primary">提交</button>
-			</form>
-		</div>
-	</div>
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">管理员信息注册</h3>
+        </div>
+        <div class="panel-body">
+            <% if(isEditor){ %>
+                <form action="/admin/user/editor/<%= model.id%>" method="POST" role="form">
+                    <% }else{%>
+                        <form method="POST" role="form" id="mainForm">
+                            <% }%>
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input type="text" class="form-control" name="name" value="<%= model.name%>" placeholder="请输入姓名">
+                                </div>
+                                <% if(!isEditor){%>
+                                    <div class="form-group">
+                                        <label>用户名</label>
+                                        <input type="text" class="form-control" name="user_name" placeholder="请输入昵称">
+                                    </div>
+                                    <% }else{%>
+                                        <div>用户名：<span><%= model.user_name%></span></div>
+                                        <%}%>
+                                            <div class="form-group">
+                                                <label>QQ</label>
+                                                <input type="text" class="form-control" name="qq" value="<%= model.qq%>" placeholder="请输入QQ">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>手机号</label>
+                                                <input type="text" class="form-control" name="phone" value="<%= model.phone%>" placeholder="请输入手机号">
+                                            </div>
+                                            <% if(!isEditor){ %>
+                                                <div class="form-group">
+                                                    <label>email</label>
+                                                    <input type="email" class="form-control" name="email" placeholder="请输入邮箱">
+                                                </div>
+                                                <% }else{%>
+                                                    <div>邮箱：<span><%= model.email%></span></div>
+                                                    <% }%>
+                                                        <div class="form-group">
+                                                            <label>密码</label>
+                                                            <input type="password" class="form-control" name="user_pwd" value="<%= model.user_pwd%>" placeholder="请输入密码">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>是否加密</label>
+                                                            <select name="is_encryption" class="form-control">
+                                                            <option value="1">加密</option>
+                                                            <option value="0">不加密</option>
+                                                            </select>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-block btn-primary">提交</button>
+                        </form>
+        </div>
+    </div>
 </body>
+<script src="/admin/js/jquery.min.js"></script>
+<script src="/libs/jquery.validate.min.js"></script>
+<script src="/libs/localization/messages_zh.min.js"></script>
+<script>
+    jQuery.validator.setDefaults({
+        errorElement: "em",
+        errorPlacement: function(error, element) {
+            // Add the `help-block` class to the error element
+            error.addClass("help-block");
+
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent("label"));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        highlight: function(element, errorClass, validClass) {
+            // console.log(element)
+            // .partent()表示获取当前元素的父级
+            $(element).parent().addClass("has-error").removeClass("has-success");
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parent().addClass("has-success").removeClass("has-error");
+        },
+    })
+</script>
+<script>
+    //验证手机号
+    jQuery.validator.addMethod('isMobile', function(value, element) {
+            var testMobile = /^1[3,5,7,8][0-9]\d{8}$/;
+            return this.optional(element) || testMobile.test(value);
+        }, '手机号码格式错误')
+        // 验证QQ号
+    jQuery.validator.addMethod('isQQ', function(value, element) {
+        var testQQ = /^[1-9]\d{4,10}$/
+        return this.optional(element) || testQQ.test(value);
+    }, '请输入正确的QQ号')
+
+    $(function() {
+        $('#mainForm').validate({
+            rules: {
+                user_name: {
+                    required: true,
+                    minlength: 2,
+                    // remote 远程验证，成功返回true，否则返回false
+                    // 默认发送get请求，把当前输入框中的内容传递到服务器
+                    remote: '/api/v1/validate/admin_user_name',
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                //验证手机号
+                phone: {
+                    required: true,
+                    // maxlength: 11,
+                    // minlength: 11,
+                    isMobile: true, //自定义验证方法
+                },
+                // 验证QQ
+                qq: {
+                    required: true,
+                    isQQ: true,
+                },
+                user_pwd: {
+                    required: true,
+                    maxlength: 16,
+                    minlength: 6,
+                },
+            },
+            messages: {
+                user_name: {
+                    required: '用户名必须要填',
+                    minlength: '长度不小于两个字符',
+                    remote: '用户名已存在'
+                },
+                eamil: {
+                    required: '邮箱必须填写',
+                },
+                phone: {
+                    required: '手机啥的不需要吗？',
+                    maxlength: '手机号是固定11位的哦',
+                    minlength: '手机号是固定11位的哦',
+                }
+
+            }
+        })
+
+    })
+</script>
+
 </html>

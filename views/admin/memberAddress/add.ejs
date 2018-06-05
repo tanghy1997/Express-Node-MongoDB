@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <link rel="stylesheet" href="/admin/css/animate.css">
+    <style>
+        .table th {
+            min-width: 50px;
+        }
+        
+        .table th:last-of-type {
+            width: 90px;
+        }
+        
+        .table th:first-of-type {
+            width: 50px;
+        }
+        
+        .table td:first-of-type {
+            width: 30px;
+            text-align: center;
+        }
+        
+        .table th {
+            text-align: center;
+        }
+    </style>
+    <title>会员地址</title>
+</head>
+
+<body class="gray-bg">
+    <div class="container wrapper wrapper-content animated fadeInRight">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">会员地址新增</h3>
+            </div>
+            <div class="panel-body">
+                <% if(isEditor){%>
+                    <form method="POST" role="form" id="mainForm" action="/api/v1/memberAddress/editor/<%= model.id%>">
+                        <% }else{%>
+                            <form method="POST" role="form" id="mainForm">
+                                <% }%>
+                                    <div class="form-group">
+                                        <label for="">地址</label>
+                                        <select name="Province" class="form-control"></select>
+                                        <select name="City" class="form-control"></select>
+                                        <select name="Area" class="form-control"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>详细信息</label>
+                                        <input type="text" name="address_detail" value="<%= model.address_detail %>" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>是否默认</label>
+                                        <input type="radio" name="is_default" value="0" checked>否
+                                        <input type="radio" name="is_default" value="1">是
+                                    </div>
+                                    <button type="submit" id="btnSubmit" class="btn btn-block btn-primary">保存</button>
+                            </form>
+            </div>
+        </div>
+    </div>
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/plugins/layer/layer.min.js"></script>
+    <script src="/lib/jquery.validate.min.js"></script>
+    <script src="/lib/localization/messages_zh.min.js"></script>
+    <script src="/admin/js/ss.js"></script>
+    <script>
+        jQuery.validator.setDefaults({
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                // Add the `help-block` class to the error element
+                error.addClass("help-block");
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass, validClass) {
+                // console.log(element)
+                // .parent()表示获取当前元素的父级
+                $(element).parent().addClass("has-error").removeClass("has-success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parent().addClass("has-success").removeClass("has-error");
+            },
+        })
+    </script>
+    <script src="/libs/PCASClass.js"></script>
+    <script>
+        $(function() {
+            $('input[name="is_default"][value="<%= model.is_default %>"]').prop('checked', true);
+            new PCAS("Province", "City", "Area", "<%= p %>", "<%= c %>", "<%= a %>");
+            $('#mainForm').validate({
+                // debug:true,
+                // ignore: '.ignore,[type="file"]',
+                rules: {
+                    Province: {
+                        required: true,
+                    },
+                    City: {
+                        required: true,
+                    },
+                    Area: {
+                        required: true,
+                    },
+                    address_detail: {
+                        required: true,
+                        minlength: 3
+                    },
+                },
+                messages: {
+                    Province: {
+                        required: '省份信息不能为空!'
+                    },
+                    City: {
+                        required: '城市信息不能为空!'
+                    },
+                    Area: {
+                        required: '地区信息不能为空!'
+                    },
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

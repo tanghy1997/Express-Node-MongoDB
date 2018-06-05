@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会员新增</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
+</head>
+
+<body>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">会员新增</h3>
+        </div>
+        <div class="panel-body">
+            <% if(isEditor){%>
+                <form action="/api/v1/members/editor/<%= model.id%>" method="POST" role="form" id="mainForm">
+                    <%}else{%>
+                        <form method="POST" role="form" id="mainForm">
+                            <% }%>
+
+                                <% if(!isEditor){%>
+                                    <div class="form-group">
+                                        <label>用户名</label>
+                                        <input type="text" class="form-control" name="username" placeholder="请输入用户名">
+                                    </div>
+                                    <% }else{%>
+                                        <div>用户名：<span><%= model.username%></span></div>
+                                        <% }%>
+
+                                            <% if(!isEditor){%>
+                                                <div class="form-group">
+                                                    <label>邮箱</label>
+                                                    <input type="text" class="form-control" name="email" placeholder="请输入邮箱">
+                                                </div>
+                                                <% }else{%>
+                                                    <div>邮箱：<span><%= model.email%></span></div>
+                                                    <% }%>
+                                                        <% if(!isEditor){%>
+                                                            <div class="form-group">
+                                                                <label>手机号</label>
+                                                                <input type="text" class="form-control" name="mobile" placeholder="请输入手机号">
+                                                            </div>
+                                                            <% }else{%>
+                                                                <div>手机号：<span><%= model.mobile%></span></div>
+                                                                <% }%>
+                                                                    <div class="form-group">
+                                                                        <label>姓名</label>
+                                                                        <input type="text" value="<%= model.name%>" class="form-control" name="name" placeholder="请输入姓名">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>昵称</label>
+                                                                        <input type="text" value="<%= model.nick_name%>" class="form-control" name="nick_name" placeholder="请输入昵称">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>密码</label>
+                                                                        <input type="text" value="<%= model.user_pwd%>" class="form-control" name="user_pwd" placeholder="请输入密码">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>是否加密</label>
+                                                                        <select name="is_encryption" class="form-control">
+                                                                            <option value="1">加密</option>
+                                                                            <option value="0">不加密</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>图片</label>
+                                                                        <img src="/default.jpg" id="imgCtrl" alt="图片" style="width:100px;max-height:100px;">
+                                                                        <input name="img" id="img" type="hidden" class="form-control" placeholder="请上传图片">
+                                                                        <a href="javascript:void(0)" value="上传" id="uploadButton">上传</a>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-block btn-primary">提交</button>
+                        </form>
+        </div>
+    </div>
+    <script src="/assets/kindeditor/kindeditor-all-min.js"></script>
+    <script src="/admin/js/jquery.min.js"></script>
+    <script>
+        KindEditor.ready(function(K) {
+            var editor1 = K.create('textarea[name="content"]', {
+                uploadJson: '/common/kindeditor/uploadImg' //处理文件上传的服务器地址
+            });
+            var uploadbutton = K.uploadbutton({
+                button: K('#uploadButton')[0],
+                fieldName: 'imgFile',
+                url: '/common/kindeditor/uploadImg',
+                afterUpload: function(data) {
+                    if (data.error === 0) {
+                        var url = data.url;
+                        K('#img').val(url);
+                        K('#imgCtrl').attr('src', url);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function(str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
+            uploadbutton.fileBox.change(function(e) {
+                uploadbutton.submit();
+            });
+            // 修改单独上传文件插件的样式
+            var upBtn = $('.ke-button').attr('class', '');
+            upBtn.addClass('btn btn-danger btn-sm');
+            $('.ke-button-common').height('auto');
+            $('.ke-form').width('50px');
+        });
+    </script>
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/libs/jquery.validate.min.js"></script>
+    <script src="/libs/localization/messages_zh.min.js"></script>
+    <script>
+        jQuery.validator.setDefaults({
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                // Add the `help-block` class to the error element
+                error.addClass("help-block");
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass, validClass) {
+                // console.log(element)
+                // .partent()表示获取当前元素的父级
+                $(element).parent().addClass("has-error").removeClass("has-success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parent().addClass("has-success").removeClass("has-error");
+            },
+        })
+    </script>
+    <script>
+        //验证手机号
+        jQuery.validator.addMethod('isMobile', function(value, element) {
+            var testMobile = /^1[3,5,7,8][0-9]\d{8}$/;
+            return this.optional(element) || testMobile.test(value);
+        }, '手机号码格式错误');
+        $(function() {
+            $('#mainForm').validate({
+                // debug: true,
+                ignore: '.ignore,[type="file"]',
+                rules: {
+                    username: {
+                        required: true,
+                        minlength: 2,
+                        // remote 远程验证，成功返回true，否则返回false
+                        // 默认发送get请求，把当前输入框中的内容传递到服务器
+                        remote: '/api/v1/validate/member_user_name',
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: '/api/v1/validate/member_email',
+                    },
+                    //验证手机号
+                    mobile: {
+                        required: true,
+                        // maxlength: 11,
+                        // minlength: 11,
+                        isMobile: true, //自定义验证方法
+                        remote: '/api/v1/validate/member_mobile',
+                    },
+                    user_pwd: {
+                        required: true,
+                        maxlength: 16,
+                        minlength: 6,
+                    },
+                    name: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    user_name: {
+                        required: '用户名必须要填',
+                        minlength: '长度不小于两个字符',
+                        remote: '用户名已存在'
+                    },
+                    eamil: {
+                        required: '邮箱必须填写',
+                    },
+                    mobile: {
+                        required: '手机啥的不需要吗？',
+                    },
+                    user_pwd: {
+                        required: '密码很重要',
+                    },
+                    name: {
+                        required: '请留下大名',
+                    }
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

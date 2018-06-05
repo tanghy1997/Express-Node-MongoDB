@@ -1,103 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>商品新增</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/admin/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品新增</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
 </head>
+
 <body>
-	<div class="container">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-				  <h3 class="panel-title">新增商品</h3>
-			</div>
-			<div class="panel-body">
-				  <form action="" method="post" role="form">
-					  <div class="form-group">
-						  <label for="">商品名字</label>
-						  <input type="text" class="form-control" name="name" placeholder="请输入商品的名字">
-					  </div>
-					  <div class="form-group">
-						  <label for="">分类</label>
-						  <select name="goods_type" id="" class="form-control">
-							  <% data.forEach(function(item){ %>
-								<option value="<%= item.id%>"><%= item.name %></option>
-								<% }) %>
-						  </select>
-					  </div>
-					  <div class="form-group upload">
-						  <label for="">图片</label>
-						  <img src="/default.jpg" id="imgCtrl" alt="图片" style="width:100px;max-height:100px;">
-						  <input name="img" id="img" type="hidden" class="form-control" placeholder="请上传图片">
-						  <a href="javascript:void(0)" value="上传" id="uploadButton">上传</a>
-					  </div>
-					  <div>
-					  <div class="form-group">
-						<label for="">价格</label>
-						<input type="text" class="form-control" name="price" placeholder="请输入商品的价格">
-					  </div>
-					  <div class="form-group">
-						  <label for="">库存</label>
-						  <input type="text" class="form-control" name="store_count" placeholder="请输入商品的库存">
-					  </div>
-					  <label for="">描述</label>
-					  <textarea name="description" class="form-control" id="" cols="30" rows="10"></textarea>
-					  <label for="">详情</label>
-					  <textarea name="content" class="form-control" id="" cols="30" rows="10"></textarea>
-					</div>
-					<button type="submit" class="btn btn-block btn-primary">新增</button>
-				  </form>
-			</div>
-	  	</div>
-	</div>
-	<script src="/assets/kindeditor/kindeditor-all.js"></script>
-	<script src="/admin/js/jquery.min.js"></script>
-	<script>
+    <div class="container">
+        <!-- bs3-panel:danger 生成一个面板 红色头部的 -->
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">商品新增</h3>
+            </div>
+            <div class="panel-body">
+                <!-- bs3-form 生成一个表单 -->
+                <form method="POST" role="form">
+                    <div class="form-group">
+                        <label>名字</label>
+                        <input name="name" type="text" class="form-control" placeholder="请输入商品名字">
+                    </div>
+                    <div class="form-group">
+                        <label>分类</label>
+                        <select name="goods_type" class="form-control">
+								<% data.forEach(function(item){%>
+								<option value="<%= item.id %>"><%= item.name %></option>
+								<%}) %>
+							</select>
+                    </div>
+                    <div class="form-group">
+                        <label>图片</label>
+                        <img src="/default.jpg" id="imgCtrl" alt="图片" style="width:100px;max-height:100px;">
+                        <input name="picture" id="img" type="hidden" class="form-control" placeholder="请上传图片">
+                        <a href="javascript:void(0)" value="上传" id="uploadButton">上传</a>
+                    </div>
+                    <div class="form-group">
+                        <label>价格</label>
+                        <input name="price" type="text" class="form-control" placeholder="请输入商品价格">
+                    </div>
+                    <div class="form-group">
+                        <label>库存</label>
+                        <input name="store_count" type="text" class="form-control" placeholder="请输入商品库存">
+                    </div>
+                    <div class="form-group">
+                        <label>描述</label>
+                        <textarea name="description" class="form-control" cols="30" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>详情</label>
+                        <textarea name="content" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary">保存</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/kindeditor/kindeditor-all-min.js"></script>
+    <script src="/admin/js/jquery.min.js"></script>
+    <script>
         KindEditor.ready(function(K) {
             var editor1 = K.create('textarea[name="content"]', {
-                uploadJson: '/common/kindeditor/uploadImg' //处理文件上传服务
+                uploadJson: '/common/kindeditor/uploadImg' //处理文件上传的服务器地址
             });
             var uploadbutton = K.uploadbutton({
-				button: K('#uploadButton')[0],
-				fieldName: 'imgFile',
-				url: '/common/kindeditor/uploadImg',
-				afterUpload: function(data) {
-					if(data.error === 0) {
-						var url = data.url;
-						K('#img').val(url);
-						K('#imgCtrl').attr('src', url);
-					} else {
-						alert(data.message);
-					}
-				},
-				afterError: function(str) {
-					alert('自定义错误信息：' + str);
-				}
-			});
+                button: K('#uploadButton')[0],
+                fieldName: 'imgFile',
+                url: '/common/kindeditor/uploadImg',
+                afterUpload: function(data) {
+                    if (data.error === 0) {
+                        var url = data.url;
+                        K('#img').val(url);
+                        K('#imgCtrl').attr('src', url);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                afterError: function(str) {
+                    alert('自定义错误信息: ' + str);
+                }
+            });
             uploadbutton.fileBox.change(function(e) {
-            	uploadbutton.submit();
-			});
-        //    修改单独上传文件插件样式
-			var upBtn = $('.ke-button').attr('class','');
-			upBtn.addClass('btn btn-danger btn-sm');
-			$('.ke-button-common').height('auto');
-			$('.ke-form').width('50px');
-
+                uploadbutton.submit();
+            });
+            // 修改单独上传文件插件的样式
+            var upBtn = $('.ke-button').attr('class', '');
+            upBtn.addClass('btn btn-danger btn-sm');
+            $('.ke-button-common').height('auto');
+            $('.ke-form').width('50px');
         });
-        // K('#image1').click(function(){
-        	// editor.loadPlugin('image', function() {
-        	// 	editor.plugin.imageDialog({
-		// 			imageUrl: K('#url1').val(),
-		// 			clickFn: function(url, title, width, height, border, align) {
-		// 				K('#url1').val(url);
-		// 				editor.hideDialog();
-		// 			}
-		// 		})
-		// 	})
-		// })
     </script>
 </body>
+
 </html>

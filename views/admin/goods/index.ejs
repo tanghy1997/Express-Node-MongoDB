@@ -2,67 +2,88 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>col 首页</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>col 首页</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="panel panel-danger">
-	<div class="panel-heading">
-		<h3 class="panel-title">goods 首页</h3>
-	</div>
-	<div class="panel-body">
-		<a href="/admin/goods/add" class="btn btn-danger">新增</a>
-		<table class="table table-bordered table-hover">
-			<thead>
-			<tr>
-				<th>序号</th>
-				<th>名字</th>
-				<th>分类</th>
-				<th>图片</th>
-				<th>价格</th>
-				<th>库存</th>
-				<th>描述</th>
-			</tr>
-			</thead>
-			<tbody>
-			<% goodsData.forEach(function(item,index){%>
-			<tr>
-				<td>
-					<%= index+1 %>
-				</td>
-				<td>
-					<%= item.name %>
-				</td>
-				<% const a = goodsTypeData.find(u=>{
-					return u.id==item.goods_type
-				}) %>
-				<td>
-					<%= a?a.name:''%>
-				</td>
-				<td>
-					<img src="<%= item.picture%>" alt="" style="width:50px;height:50px;">
-				</td>
-				<td>
-					<%= item.price%>
-				</td>
-				<td>
-					<%= item.store_count%>
-				</td>
-				<td>
-					<%= item.description %>
-				</td>
-			</tr>
-			<%})%>
-			</tbody>
-		</table>
-	</div>
-</div>
-
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">goods 首页</h3>
+        </div>
+        <div class="panel-body">
+            <a href="/admin/goods/add" class="btn btn-danger">新增</a>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名字</th>
+                        <th>分类</th>
+                        <th>图片</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% list.forEach(function(item,index){%>
+                        <tr>
+                            <td>
+                                <%= index+1 %>
+                            </td>
+                            <td>
+                                <%= item.name %>
+                            </td>
+                            <% const a = goodsTypeData.find(u=>{
+                               return u.id==item.goods_type
+                           }) %>
+                                <td>
+                                    <%= a?a.name:''%>
+                                </td>
+                                <td>
+                                    <img src="<%= item.picture%>" alt="" style="width:50px;height:50px;">
+                                </td>
+                                <td>
+                                    <%= item.price%>
+                                </td>
+                                <td>
+                                    <%= item.store_count%>
+                                </td>
+                                <td>
+                                    <%- item.description %>
+                                </td>
+                                <td>
+                                    <a href="/admin/goods/editor?id=<%= item.id%>"><i class="btn btn-primary btn-sm fa fa-edit">编辑</i></a>
+                                    <a><i class="btn btn-danger btn-sm fa fa-remove" onclick="delOne('<%= item.id%>')">删除</i></a>
+                                </td>
+                        </tr>
+                        <%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <% const pageBaseUrl = '/admin/goods' %>
+        <% include ../layout/admin/paging %>
+            <form action="/admin/goods/delete" style="display:none;" id="delForm" method="post">
+                <input type="text" id="delID" name="id">
+            </form>
+            <script src="/admin/js/jquery.min.js"></script>
+            <script src="/admin/js/plugins/layer/layer.min.js"></script>
+            <script src="/admin/js/ss.js"></script>
+            <script>
+                function delOne(id) {
+                    confirm('是否删除选中的信息？', function() {
+                        $('#delID').val(id);
+                        $('#delForm').submit();
+                    })
+                }
+            </script>
 </body>
 
 </html>

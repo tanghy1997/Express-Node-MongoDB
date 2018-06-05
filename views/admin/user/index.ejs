@@ -1,59 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>座次表</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理员数据</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/plugins/layer/layer.min.js"></script>
+    <script src="/admin/js/ss.js"></script>
 </head>
+
 <body>
-	<div class="container">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">管理员信息表</h3>
-			</div>
-			<div class="panel-body">
-				<a href="/admin/user/register" class="btn btn-danger">新增</a>
-				<table class="table table-bordered table-hover">
-					<thead>
-					<tr>
-						<th>姓名</th>
-						<th>昵称</th>
-						<th>QQ</th>
-						<th>手机号</th>
-						<th>邮箱</th>
-						<th>密码</th>
-					</tr>
-					</thead>
-					<tbody>
-					<% adminData.forEach(function(r){%>
-					<tr>
-						<td>
-							<%= r.name%>
-						</td>
-						<td>
-							<%= r.user_name%>
-						</td>
-						<td>
-							<%= r.qq%>
-						</td>
-						<td>
-							<%= r.phone%>
-						</td>
-						<td>
-							<%= r.email%>
-						</td>
-						<td>
-							<%= r.user_pwd%>
-						</td>
-					</tr>
-					<%})%>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">管理员信息表</h3>
+            </div>
+            <div class="panel-body">
+                <a href="/admin/user/register" class="btn btn-danger">新增</a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>昵称</th>
+                            <th>QQ</th>
+                            <th>手机号</th>
+                            <th>邮箱</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% list.forEach(function(r,index){%>
+                            <tr>
+                                <td>
+                                    <%= index+1%>
+                                </td>
+                                <td>
+                                    <%= r.name%>
+                                </td>
+                                <td>
+                                    <%= r.user_name%>
+                                </td>
+                                <td>
+                                    <%= r.qq%>
+                                </td>
+                                <td>
+                                    <%= r.phone%>
+                                </td>
+                                <td>
+                                    <%= r.email%>
+                                </td>
+                                <td>
+                                    <a href="/admin/user/editor?id=<%= r.id%>"><i class="btn btn-primary btn-sm fa fa-edit">编辑</i></a>
+                                    <a><i class="btn btn-danger btn-sm fa fa-remove" onclick="delOne('<%= r.id %>')">删除</i></a>
+                                </td>
+                            </tr>
+                            <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用局部视图解决分页插件重复使用问题 -->
+    <% const pageBaseUrl = '/admin/user' %>
+        <% include ../layout/admin/paging %>
+            <form action="/admin/user/delete" style="display:none;" id="delForm" method="post">
+                <input type="text" id="delID" name="id">
+            </form>
+            <script>
+                function delOne(id) {
+                    // if (confirm('是否删除选中的信息？')) {
+                    //     // alert('删除')
+                    //     $('#delID').val(id);
+                    //     $('#delForm'), submit();
+                    // }
+                    confirm('是否删除选中的信息？', function() {
+                        $('#delID').val(id);
+                        $('#delForm').submit();
+                    })
+                }
+            </script>
 </body>
+
 </html>

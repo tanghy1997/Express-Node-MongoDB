@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>注册页面</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册页面</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
+
 <body>
-	<div class="container">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
+    <div class="container">
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
                 <h3 class="panel-title">注册</h3>
             </div>
             <div class="panel-body">
-				<form action="" method="POST" role="form">
-					<legend>mark</legend>
-					<div class="form-group">
-						<label>姓名</label>
-						<input type="text" class="form-control" name="name" placeholder="请输入姓名">
-					</div>
-					<div class="form-group">
-						<label>性别</label>
-						<select name="gender" class="form-control">
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>行</label>
-						<select name="row_id" class="form-control">
-							<% rowList.forEach(function(item){ %>
-								<option value="<%= item.id %>"><%= item.name %></option>
-							<% }) %>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>列</label>
-						<select name="col_id" class="form-control">
-							<% colList.forEach(function(item){%>
-								<option value="<%= item.id%>"><%= item.name %></option>
-							<%})%>
-						</select>
-					</div>
-					<button type="submit" class="btn btn-block btn-primary">注册</button>
-				</form>
+                <form action="" method="POST" role="form">
+                    <legend>mark茶水间</legend>
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" class="form-control" name="name" placeholder="请输入姓名">
+                    </div>
+                    <div class="form-group">
+                        <label>性别</label>
+                        <select name="gender" class="form-control">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>行</label>
+                        <select name="row_id" class="form-control">
+                                <% rowList.forEach(function(item){%>
+                                    <option value="<%= item.id%>"><%= item.name %></option>
+                                <%})%>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>列</label>
+                        <select name="col_id" class="form-control">
+                                <% colList.forEach(function(item){%>
+                                    <option value="<%= item.id%>"><%= item.name %></option>
+                                <%})%>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary">注册</button>
+                </form>
             </div>
-		</div>
-	</div>
+        </div>
+
+    </div>
 </body>
+
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <link rel="stylesheet" href="/admin/css/animate.css">
+    <style>
+        .table th {
+            min-width: 50px;
+        }
+        
+        .table th:last-of-type {
+            width: 90px;
+        }
+        
+        .table th:first-of-type {
+            width: 50px;
+        }
+        
+        .table td:first-of-type {
+            width: 30px;
+            text-align: center;
+        }
+        
+        .table th {
+            text-align: center;
+        }
+    </style>
+    <title>会员地址管理</title>
+</head>
+
+<body class="gray-bg">
+    <div class="container wrapper wrapper-content animated fadeInRight">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">用户地址栏</h3>
+            </div>
+            <div class="panel-body">
+                <a href="/api/v1/memberAddress/add/<%= m_id%>">新增</a>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>地址</th>
+                            <th>详细信息</th>
+                            <th>是否默认</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% list.forEach(function(item,index){%>
+                            <tr>
+                                <td>
+                                    <%= index+1%>
+                                </td>
+                                <td>
+                                    <%= item.address%>
+                                </td>
+                                <td>
+                                    <%= item.address_detail %>
+                                </td>
+                                <td>
+                                    <%= item.is_default==1?"是":"否" %>
+                                </td>
+                                <td>
+                                    <a href="/api/v1/memberAddress/editor?id=<%= item.id %>"><i class="btn btn-primary btn-sm fa fa-edit"></i></a>
+                                    <a onclick="delOne('<%= item.id %>')"><i class="btn btn-danger btn-sm fa fa-remove"></i></a>
+                                </td>
+                            </tr>
+                            <%})%>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/plugins/layer/layer.min.js"></script>
+    <script src="/lib/jquery.validate.min.js"></script>
+    <script src="/lib/localization/messages_zh.min.js"></script>
+    <script src="/admin/js/ss.js"></script>
+    <script>
+        jQuery.validator.setDefaults({
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                // Add the `help-block` class to the error element
+                error.addClass("help-block");
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function(element, errorClass, validClass) {
+                // console.log(element)
+                // .parent()表示获取当前元素的父级
+                $(element).parent().addClass("has-error").removeClass("has-success");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parent().addClass("has-success").removeClass("has-error");
+            },
+        })
+    </script>
+    <form method="post" id="delForm" style="display:none;" action="/api/v1/memberAddress/delete">
+        <input type="text" name="id" id="delID">
+    </form>
+    <script>
+        function delOne(id) {
+            confirm('是否删除选中的信息?', function() {
+                $('#delID').val(id);
+                $('#delForm').submit();
+            })
+        }
+    </script>
+</body>
+
+</html>
